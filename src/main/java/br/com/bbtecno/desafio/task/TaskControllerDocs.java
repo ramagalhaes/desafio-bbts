@@ -36,6 +36,15 @@ public interface TaskControllerDocs {
 
     @Operation(summary = "Create a new task")
     @PostMapping
+    @ApiResponse(
+            description = "Successfully create a task", responseCode = "201",
+            headers = @Header(
+                    name = "Location",
+                    description = "location of the updated resource",
+                    example = "/api/v1/tasks/example-id"
+            ),
+            content = @Content(examples = @ExampleObject(value = "no-content"))
+    )
     Mono<ResponseEntity<Object>> createTask(
             @Parameter(description = "Details of the task to be created", required = true)
             @RequestBody CreateTaskRequest request);

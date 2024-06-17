@@ -10,6 +10,22 @@ spring:
       enabled: true
       max-file-size: 10MB
       max-request-size: 10MB
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: Ov23liMOGxSwekjI61sx
+            client-secret: df7f94e292e63c2ec025152f79f7c4e384690f98
+            redirect-uri: http://localhost:8080/login/oauth2/code/github
+            scope: user:email
+            client-name: GitHub
+        provider:
+          github:
+            authorization-uri: https://github.com/login/oauth/authorize
+            token-uri: https://github.com/login/oauth/access_token
+            user-info-uri: https://api.github.com/user
+            user-name-attribute: id
 
 aws:
   access:

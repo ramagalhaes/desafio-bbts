@@ -1,6 +1,5 @@
 package br.com.bbtecno.desafio.task;
 
-import br.com.bbtecno.desafio.core.files.FileStorage;
 import br.com.bbtecno.desafio.core.files.S3FileStorage;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
@@ -13,11 +12,14 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.http.codec.multipart.FilePart;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.testcontainers.containers.MongoDBContainer;
 import org.testcontainers.containers.localstack.LocalStackContainer;
@@ -31,8 +33,8 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.util.UUID;
 
-import static org.mockito.Mockito.when;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
@@ -57,6 +59,15 @@ class TaskServiceIntegrationTest {
 
     @Container
     public static MongoDBContainer mongoDBContainer = new MongoDBContainer("mongo:4.4.3");
+
+    @Qualifier("s3FileStorage")
+    @Autowired
+    private S3FileStorage s3FileStorage;
+
+    @DynamicPropertySource
+    static void setProperties(DynamicPropertyRegistry registry) {
+        registry.add("spring.data.mongodb.uri", () -> mongoDBContainer.getReplicaSetUrl("embedded"));
+    }
 
     @Configuration
     static class TestConfig {
