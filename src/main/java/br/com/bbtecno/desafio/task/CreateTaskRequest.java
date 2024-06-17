@@ -1,13 +1,14 @@
 package br.com.bbtecno.desafio.task;
 
+import lombok.Builder;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+@Builder
 public record CreateTaskRequest(
-        String id,
         String title,
-        String filePath,
-        TaskStatus status
+        TaskStatus status,
+        Boolean hasFile
 ) {
 
     @Override

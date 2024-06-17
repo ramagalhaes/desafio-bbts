@@ -5,7 +5,6 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import reactor.core.publisher.Mono;
 
 import java.util.UUID;
 
@@ -18,25 +17,30 @@ import java.util.UUID;
 public class Task {
 
     @Id
-    private String id = UUID.randomUUID().toString();
+    private UUID id;
     private String title;
-    private String filePath;
+    private String fileName;
     private TaskStatus status = TaskStatus.TODO;
+    private Boolean hasFile = false;
 
     public Task update(Task task) {
-        this.title = task.getTitle();
-        this.filePath = task.getFilePath();
-        this.status = task.getStatus();
+        this.title = task.getTitle() == null ? title : task.getTitle();
+        this.fileName = task.getFileName() == null ? fileName : task.getFileName();
+        this.status = task.getStatus() == null ? status : task.getStatus();
         return this;
     }
 
-    public static Task fromRequest(CreateTaskRequest request) {
+    public static Task fromRequest(CreateTaskRequest request, UUID uuid) {
         return Task.builder()
-                .id(request.id() == null ? UUID.randomUUID().toString() : request.id())
+                .id(uuid)
                 .title(request.title())
-                .filePath(request.filePath())
+                .hasFile(request.hasFile() != null && request.hasFile())
                 .status(request.status() == null ? TaskStatus.TODO : request.status())
                 .build();
+    }
+
+    public String generateFileName() {
+        return id.toString();
     }
 
     @Override

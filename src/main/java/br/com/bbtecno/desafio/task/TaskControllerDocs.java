@@ -8,10 +8,12 @@ import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
+import java.util.UUID;
 
 @Tag(name = "Tasks", description = "Task Management API")
 public interface TaskControllerDocs {
@@ -24,7 +26,7 @@ public interface TaskControllerDocs {
     @GetMapping("/{id}")
     Mono<ResponseEntity<Task>> getTaskById(
             @Parameter(description = "ID of the task to be retrieved", required = true)
-            @PathVariable String id);
+            @PathVariable UUID id);
 
     @Operation(summary = "Get tasks by status")
     @GetMapping("/status")
@@ -34,7 +36,7 @@ public interface TaskControllerDocs {
 
     @Operation(summary = "Create a new task")
     @PostMapping
-    Mono<ResponseEntity<Task>> createTask(
+    Mono<ResponseEntity<Object>> createTask(
             @Parameter(description = "Details of the task to be created", required = true)
             @RequestBody CreateTaskRequest request);
 
@@ -54,7 +56,7 @@ public interface TaskControllerDocs {
             @Parameter(description = "Updated details of the task", required = true)
             @RequestBody CreateTaskRequest request,
             @Parameter(description = "ID of the task to be updated", required = true)
-            @PathVariable String id);
+            @PathVariable UUID id);
 
     @Operation(summary = "Delete a task")
     @DeleteMapping("/{id}")
@@ -62,5 +64,5 @@ public interface TaskControllerDocs {
     @ApiResponse(description = "Task not found for the given id", responseCode = "404")
     Mono<ResponseEntity<Void>> delete(
             @Parameter(description = "ID of the task to be deleted", required = true)
-            @PathVariable String id);
+            @PathVariable UUID id);
 }

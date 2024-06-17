@@ -5,3 +5,16 @@ spring:
     mongodb:
       host: localhost
       port: 27017
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+aws:
+  access:
+    key: AKIAVRUVUIL6UXDDS57G
+  secret:
+    key: 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
+  s3:
+    bucket-name: desafio-bbts-s3

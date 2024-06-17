@@ -2,11 +2,13 @@ package br.com.bbtecno.desafio.task;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/tasks")
@@ -23,7 +25,7 @@ public class TaskController implements TaskControllerDocs {
     }
 
     @GetMapping("/{id}")
-    public Mono<ResponseEntity<Task>> getTaskById(@PathVariable String id) {
+    public Mono<ResponseEntity<Task>> getTaskById(@PathVariable UUID id) {
         return taskService.findById(id)
                 .map(ResponseEntity::ok);
     }
@@ -36,27 +38,32 @@ public class TaskController implements TaskControllerDocs {
     }
 
     @PostMapping
-    public Mono<ResponseEntity<Task>> createTask(@RequestBody CreateTaskRequest request) {
+    public Mono<ResponseEntity<Object>> createTask(@RequestBody CreateTaskRequest request) {
         return taskService.create(request)
-                .map(ResponseEntity::ok);
+                .map(createdTask -> ResponseEntity.created(UriComponentsBuilder.fromPath("/api/v1/tasks/{id}").buildAndExpand(createdTask.getId()).toUri())
+                        .build())
+                .defaultIfEmpty(ResponseEntity.badRequest().build());
     }
 
     @PutMapping("/{id}")
-    public Mono<ResponseEntity<Task>> update(@RequestBody CreateTaskRequest request, @PathVariable String id) {
-//        return request.map(r -> taskService.update(id, r))
-//                .flatMap(created -> Mono.just(ResponseEntity
-//                        .created(UriComponentsBuilder.fromPath("/api/v1/tasks/{id}").buildAndExpand(created.map(Task::getId)).toUri())
-//                        .build())
-//                );
+    public Mono<ResponseEntity<Task>> update(@RequestBody CreateTaskRequest request, @PathVariable UUID id) {
         return taskService.update(id, request)
                 .map(createdTask -> ResponseEntity.created(UriComponentsBuilder.fromPath("/api/v1/tasks/{id}").buildAndExpand(createdTask.getId()).toUri())
-                .build());
+                        .build());
     }
 
     @DeleteMapping("/{id}")
-    public Mono<ResponseEntity<Void>> delete(@PathVariable String id) {
+    public Mono<ResponseEntity<Void>> delete(@PathVariable UUID id) {
         return taskService.delete(id)
                 .then(Mono.fromCallable(() -> ResponseEntity.noContent().build()));
+    }
+
+    @PutMapping("/file-upload/{id}")
+    public Mono<ResponseEntity<Object>> uploadFile(@PathVariable UUID id, @RequestPart("file") Mono<FilePart> filePart) {
+        return taskService.uploadFile(id, filePart)
+                .map(createdTask -> ResponseEntity.created(UriComponentsBuilder.fromPath("/api/v1/tasks/{id}").buildAndExpand(createdTask.getId()).toUri())
+                        .build())
+                .defaultIfEmpty(ResponseEntity.badRequest().build());
     }
 
 }
