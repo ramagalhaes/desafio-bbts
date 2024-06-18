@@ -1,44 +1,44 @@
 package br.com.bbtecno.desafio.task;
 
-import br.com.bbtecno.desafio.core.files.S3FileStorage;
-import com.amazonaws.auth.AWSStaticCredentialsProvider;
-import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.client.builder.AwsClientBuilder;
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3ClientBuilder;
-import com.amazonaws.services.s3.model.ObjectMetadata;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
-import org.springframework.http.codec.multipart.FilePart;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.testcontainers.containers.MongoDBContainer;
-import org.testcontainers.containers.localstack.LocalStackContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
-import reactor.test.StepVerifier;
-
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.util.UUID;
-
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-
-@SpringBootTest
-@ExtendWith(SpringExtension.class)
-@Testcontainers
+//import br.com.bbtecno.desafio.core.files.S3FileStorage;
+//import com.amazonaws.auth.AWSStaticCredentialsProvider;
+//import com.amazonaws.auth.BasicAWSCredentials;
+//import com.amazonaws.client.builder.AwsClientBuilder;
+//import com.amazonaws.services.s3.AmazonS3;
+//import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+//import com.amazonaws.services.s3.model.ObjectMetadata;
+//import org.junit.jupiter.api.BeforeEach;
+//import org.junit.jupiter.api.Test;
+//import org.junit.jupiter.api.extension.ExtendWith;
+//import org.mockito.Mockito;
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.beans.factory.annotation.Qualifier;
+//import org.springframework.boot.test.context.SpringBootTest;
+//import org.springframework.context.annotation.Bean;
+//import org.springframework.context.annotation.Configuration;
+//import org.springframework.context.annotation.Primary;
+//import org.springframework.http.codec.multipart.FilePart;
+//import org.springframework.test.context.DynamicPropertyRegistry;
+//import org.springframework.test.context.DynamicPropertySource;
+//import org.springframework.test.context.junit.jupiter.SpringExtension;
+//import org.testcontainers.containers.MongoDBContainer;
+//import org.testcontainers.containers.localstack.LocalStackContainer;
+//import org.testcontainers.junit.jupiter.Container;
+//import org.testcontainers.junit.jupiter.Testcontainers;
+//import reactor.core.publisher.Flux;
+//import reactor.core.publisher.Mono;
+//import reactor.test.StepVerifier;
+//
+//import java.io.ByteArrayInputStream;
+//import java.io.File;
+//import java.util.UUID;
+//
+//import static org.mockito.ArgumentMatchers.any;
+//import static org.mockito.Mockito.when;
+//
+//@SpringBootTest
+//@ExtendWith(SpringExtension.class)
+//@Testcontainers
 class TaskServiceIntegrationTest {
 
     /*@Autowired

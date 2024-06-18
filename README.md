@@ -5,6 +5,8 @@ A aplicação conta com um docker-file e um docker-compose para que seja possív
 
 **1** - Acessar a pasta raiz do projeto e rodar o comando `mvn clean package`
 
+**1.1** - É possível rodar a aplicação a partir do comando `docker compose up --build`
+
 **2** - Rodar o comando `docker build -t desafio .`
 
 **3** - Ainda na pasta raiz do projeto rodar o comando `docker compose up -d`, para que o ambiente necessário seja disponibilizado
